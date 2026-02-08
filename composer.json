@@ -1,0 +1,40 @@
+{
+    "name": "snarktank/laravel-ralph",
+    "description": "Autonomous AI agent loop for Laravel — orchestrates Claude Code to implement features from a PRD",
+    "keywords": ["laravel", "ai", "claude", "agent", "prd", "automation"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Snarktank"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/console": "^11.0|^12.0",
+        "illuminate/process": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Snarktank\\Ralph\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Snarktank\\Ralph\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Snarktank\\Ralph\\RalphServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

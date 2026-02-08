@@ -1,0 +1,20 @@
+{
+    "project": "my-app",
+    "branchName": "feature/my-feature",
+    "description": "Describe your feature set here",
+    "userStories": [
+        {
+            "id": "US-001",
+            "title": "Example story",
+            "description": "Replace this with your first user story",
+            "acceptanceCriteria": [
+                "Describe a verifiable outcome",
+                "PHPStan passes",
+                "Tests pass"
+            ],
+            "priority": 1,
+            "passes": false,
+            "notes": ""
+        }
+    ]
+}
