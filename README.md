@@ -22,7 +22,7 @@ Inspired by [snarktank/ralph](https://github.com/snarktank/ralph).
 ## Installation
 
 ```bash
-composer require snarktank/laravel-ralph
+composer require collegeman/laravel-ralph
 ```
 
 ## Quick Start

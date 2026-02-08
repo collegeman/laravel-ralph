@@ -1,17 +1,17 @@
 <?php
 
-namespace Snarktank\Ralph;
+namespace Collegeman\Ralph;
 
 use Illuminate\Support\ServiceProvider;
-use Snarktank\Ralph\Commands\InitCommand;
-use Snarktank\Ralph\Commands\PrdCommand;
-use Snarktank\Ralph\Commands\ResetCommand;
-use Snarktank\Ralph\Commands\RunCommand;
-use Snarktank\Ralph\Commands\StatusCommand;
-use Snarktank\Ralph\Commands\SyncCommand;
-use Snarktank\Ralph\GitHub\GitHubSync;
-use Snarktank\Ralph\Prd\PrdManager;
-use Snarktank\Ralph\Progress\ProgressLog;
+use Collegeman\Ralph\Commands\InitCommand;
+use Collegeman\Ralph\Commands\PrdCommand;
+use Collegeman\Ralph\Commands\ResetCommand;
+use Collegeman\Ralph\Commands\RunCommand;
+use Collegeman\Ralph\Commands\StatusCommand;
+use Collegeman\Ralph\Commands\SyncCommand;
+use Collegeman\Ralph\GitHub\GitHubSync;
+use Collegeman\Ralph\Prd\PrdManager;
+use Collegeman\Ralph\Progress\ProgressLog;
 
 class RalphServiceProvider extends ServiceProvider
 {

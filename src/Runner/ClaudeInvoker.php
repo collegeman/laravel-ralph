@@ -1,6 +1,6 @@
 <?php
 
-namespace Snarktank\Ralph\Runner;
+namespace Collegeman\Ralph\Runner;
 
 use Illuminate\Support\Facades\Process;
 use RuntimeException;

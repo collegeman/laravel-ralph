@@ -1,10 +1,10 @@
 <?php
 
-namespace Snarktank\Ralph\Commands;
+namespace Collegeman\Ralph\Commands;
 
 use Illuminate\Console\Command;
-use Snarktank\Ralph\Prd\PrdManager;
-use Snarktank\Ralph\Progress\ProgressLog;
+use Collegeman\Ralph\Prd\PrdManager;
+use Collegeman\Ralph\Progress\ProgressLog;
 
 class ResetCommand extends Command
 {

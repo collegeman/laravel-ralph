@@ -1,12 +1,12 @@
 <?php
 
-namespace Snarktank\Ralph\Commands;
+namespace Collegeman\Ralph\Commands;
 
 use Illuminate\Console\Command;
-use Snarktank\Ralph\GitHub\GitHubSync;
-use Snarktank\Ralph\Prd\PrdManager;
-use Snarktank\Ralph\Runner\ClaudeInvoker;
-use Snarktank\Ralph\Runner\PromptBuilder;
+use Collegeman\Ralph\GitHub\GitHubSync;
+use Collegeman\Ralph\Prd\PrdManager;
+use Collegeman\Ralph\Runner\ClaudeInvoker;
+use Collegeman\Ralph\Runner\PromptBuilder;
 
 class SyncCommand extends Command
 {
@@ -124,7 +124,7 @@ class SyncCommand extends Command
 
         foreach ($stories as $storyData) {
             $storyData['priority'] = $existingCount + ($storyData['priority'] ?? 1);
-            $prdManager->addStory(\Snarktank\Ralph\Prd\UserStory::fromArray($storyData));
+            $prdManager->addStory(\Collegeman\Ralph\Prd\UserStory::fromArray($storyData));
             $existingCount++;
         }
 

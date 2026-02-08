@@ -1,6 +1,6 @@
 <?php
 
-namespace Snarktank\Ralph\Progress;
+namespace Collegeman\Ralph\Progress;
 
 class ProgressLog
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Snarktank\Ralph\Prd;
+namespace Collegeman\Ralph\Prd;
 
 class UserStory
 {

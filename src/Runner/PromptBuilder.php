@@ -1,9 +1,9 @@
 <?php
 
-namespace Snarktank\Ralph\Runner;
+namespace Collegeman\Ralph\Runner;
 
-use Snarktank\Ralph\Prd\Prd;
-use Snarktank\Ralph\Prd\UserStory;
+use Collegeman\Ralph\Prd\Prd;
+use Collegeman\Ralph\Prd\UserStory;
 
 class PromptBuilder
 {

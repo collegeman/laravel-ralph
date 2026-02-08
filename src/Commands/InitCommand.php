@@ -1,6 +1,6 @@
 <?php
 
-namespace Snarktank\Ralph\Commands;
+namespace Collegeman\Ralph\Commands;
 
 use Illuminate\Console\Command;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Snarktank\Ralph\GitHub;
+namespace Collegeman\Ralph\GitHub;
 
 use Illuminate\Support\Facades\Process;
 use RuntimeException;
-use Snarktank\Ralph\Prd\UserStory;
+use Collegeman\Ralph\Prd\UserStory;
 
 class GitHubSync
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Snarktank\Ralph\Runner;
+namespace Collegeman\Ralph\Runner;
 
 use Closure;
-use Snarktank\Ralph\GitHub\GitHubSync;
-use Snarktank\Ralph\Prd\PrdManager;
-use Snarktank\Ralph\Prd\UserStory;
-use Snarktank\Ralph\Progress\ProgressLog;
+use Collegeman\Ralph\GitHub\GitHubSync;
+use Collegeman\Ralph\Prd\PrdManager;
+use Collegeman\Ralph\Prd\UserStory;
+use Collegeman\Ralph\Progress\ProgressLog;
 
 class LoopOrchestrator
 {
