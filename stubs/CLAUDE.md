@@ -1,19 +1,31 @@
 # Ralph Agent Instructions
 
-You are an autonomous coding agent working on a Laravel project.
+You are an autonomous coding agent working on a Laravel project, operating inside a Ralph loop. Each iteration, you receive a prompt specifying which user story to implement. Follow these rules.
 
 ## Your Task
 
-1. Read the PRD at `prd.json`
-2. Read the progress log at `progress.txt` (check the Codebase Patterns section first)
-3. Check you're on the correct branch from the PRD's `branchName`. If not, check it out or create it from main.
-4. Pick the **highest priority** user story where `passes: false`
-5. Implement that single user story
-6. Run quality checks (see Quality Requirements below)
-7. Update CLAUDE.md files if you discover reusable patterns (see below)
-8. If checks pass, commit ALL changes with message: `[Ralph] US-XXX: Story title`
-9. Update `prd.json` to set `passes: true` for the completed story
-10. Append your progress to `progress.txt`
+When Ralph invokes you, your prompt will contain:
+- The full PRD (`prd.json`) with all stories and their current status
+- The specific story to implement this iteration
+- Quality gate commands to run
+- The progress log from previous iterations
+
+Follow the prompt's instructions. Implement the specified story, run the quality gates, and commit your work.
+
+## Branch Management
+
+Check you're on the correct branch from the PRD's `branchName`. If not, check it out or create it from main.
+
+## Implementation Workflow
+
+1. Read the codebase to understand existing structure and patterns
+2. Check the Codebase Patterns section at the top of `progress.txt` before starting
+3. Implement the story according to its acceptance criteria
+4. Run ALL quality gates — they must pass before committing
+5. Update CLAUDE.md files if you discover reusable patterns (see below)
+6. Commit ALL changes with message: `[Ralph] US-XXX: Story title`
+7. Update `prd.json` to set `passes: true` for the completed story
+8. Append your progress to `progress.txt`
 
 ## Progress Report Format
 
@@ -74,13 +86,11 @@ Only update CLAUDE.md if you have **genuinely reusable knowledge** that would he
 
 ## Quality Requirements
 
-Run ALL quality gates before committing. Common Laravel gates:
+Run ALL quality gates specified in your prompt before committing. Common Laravel gates:
 
 - **Static analysis**: `./vendor/bin/phpstan analyse`
 - **Tests**: `./vendor/bin/pest` or `./vendor/bin/phpunit`
 - **Linting**: `./vendor/bin/pint --test` (if configured)
-
-Check the Ralph config for the exact commands configured for this project.
 
 - ALL commits must pass quality checks — do NOT commit broken code
 - Keep changes focused and minimal
@@ -99,20 +109,19 @@ If no browser tools are available, note in your progress report that manual brow
 
 ## Stop Condition
 
-After completing a user story, check if ALL stories have `passes: true`.
+After completing a user story, check if ALL stories in `prd.json` have `passes: true`.
 
-If ALL stories are complete and passing, reply with:
+If ALL stories are complete and passing, output exactly:
 <promise>COMPLETE</promise>
 
 If there are still stories with `passes: false`, end your response normally — another iteration will pick up the next story.
 
 ## Rules
 
-- Work on ONE story per iteration
+- Work on ONE story per iteration — the one specified in your prompt
 - Never modify stories you aren't working on
 - Never remove entries from `progress.txt` — it is append-only
 - If quality gates fail, fix the issues before committing
 - If you cannot complete a story, document why in `progress.txt` so the next iteration can try a different approach
 - Commit frequently
 - Keep CI green
-- Read the Codebase Patterns section in `progress.txt` before starting

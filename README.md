@@ -28,7 +28,7 @@ composer require collegeman/laravel-ralph
 ## Quick Start
 
 ```bash
-# Scaffold project files (prd.json, CLAUDE.md, progress.txt)
+# Scaffold project files
 php artisan ralph:init
 
 # Generate a PRD interactively
@@ -44,10 +44,11 @@ php artisan ralph:run
 
 Scaffolds Ralph files for your project:
 
-- `prd.json` — story definitions and status
+- `prd.json` — story definitions and status (with example stories)
 - `CLAUDE.md` — agent instructions for Claude during loop iterations
 - `.claude/skills/prd/SKILL.md` — `/prd` slash command for generating PRDs
 - `.claude/skills/ralph/SKILL.md` — `/ralph` slash command for converting PRDs to prd.json
+- `tasks/` — directory for PRD markdown files (used by the `/prd` skill)
 - `progress.txt` — append-only log of learnings across iterations
 
 ```bash
@@ -81,6 +82,8 @@ php artisan ralph:run --max-iterations=20
 php artisan ralph:run --story=US-003        # Target a specific story
 php artisan ralph:run --dry-run             # Preview the prompt without invoking Claude
 ```
+
+When the `branchName` in `prd.json` changes between runs, Ralph automatically archives the previous `prd.json` and `progress.txt` to `archive/` and resets progress for the new feature.
 
 ### `ralph:status`
 
@@ -185,7 +188,7 @@ Add any command as a quality gate. It just needs to exit 0 on success:
 ```json
 {
     "project": "my-app",
-    "branchName": "feature/user-auth",
+    "branchName": "ralph/user-auth",
     "description": "User authentication system",
     "userStories": [
         {
@@ -208,7 +211,7 @@ Add any command as a quality gate. It just needs to exit 0 on success:
 }
 ```
 
-Each story should be small enough to complete in a single Claude session. Order by dependency — earlier stories should not depend on later ones.
+Branch names use the `ralph/` prefix by convention (e.g., `ralph/contact-form`, `ralph/user-auth`). Each story should be small enough to complete in a single Claude session. Order by dependency — earlier stories should not depend on later ones.
 
 ## Claude Code Skills
 
@@ -241,6 +244,29 @@ The typical workflow is:
 
 Skills live in `.claude/skills/` and can be customized per-project. See the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills) for details on the SKILL.md format.
 
+## Archiving
+
+Ralph automatically archives previous runs when the `branchName` in `prd.json` changes between `ralph:run` invocations. Archives are saved to `archive/YYYY-MM-DD-feature-name/` and include the previous `prd.json` and `progress.txt`. The progress log is then reset for the new feature.
+
+To manually start fresh without archiving:
+
+```bash
+php artisan ralph:reset --all
+```
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `prd.json` | User stories with `passes` status |
+| `progress.txt` | Append-only learnings across iterations |
+| `CLAUDE.md` | Agent instructions for each iteration |
+| `.claude/skills/prd/SKILL.md` | `/prd` slash command |
+| `.claude/skills/ralph/SKILL.md` | `/ralph` slash command |
+| `tasks/` | PRD markdown files (intermediate step before prd.json) |
+| `archive/` | Archived runs from previous features |
+| `.ralph-branch` | Tracks current branch for archive detection |
+
 ## Tips
 
 - **Always include quality gates in acceptance criteria.** Stories without "PHPStan passes" and "Tests pass" won't get verified.
@@ -248,6 +274,7 @@ Skills live in `.claude/skills/` and can be customized per-project. See the [Cla
 - **Review between runs.** Check git history after each `ralph:run` to validate the work before continuing.
 - **Use `--dry-run` first.** Preview what Ralph will send to Claude before spending tokens.
 - **Let progress.txt accumulate.** It's the memory that helps later iterations avoid repeating mistakes.
+- **Use the `/prd` → `/ralph` workflow.** Generating a PRD first and reviewing it before conversion catches scope issues early.
 
 ## License
 

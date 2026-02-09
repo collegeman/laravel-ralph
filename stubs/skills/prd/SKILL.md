@@ -158,6 +158,105 @@ The PRD reader will be an AI agent (Ralph). Therefore:
 
 ---
 
+## Example PRD
+
+```markdown
+# PRD: Contact Form
+
+## Introduction
+
+Add a contact form that lets visitors send messages to the site admin. Messages are stored in the database and trigger an email notification.
+
+## Goals
+
+- Allow visitors to send messages without creating an account
+- Validate all input server-side
+- Persist messages for admin review
+- Notify admin via email on new submissions
+
+## User Stories
+
+### US-001: Create contact_messages migration and model
+**Description:** As a developer, I need to store contact form submissions in the database.
+
+**Acceptance Criteria:**
+- [ ] Migration creates contact_messages table with name, email, subject, message, and timestamps
+- [ ] ContactMessage model has fillable fields
+- [ ] ContactMessageFactory generates valid test data
+- [ ] PHPStan passes
+- [ ] Tests pass
+
+### US-002: Create ContactRequest form validation
+**Description:** As a developer, I need server-side validation for contact form submissions.
+
+**Acceptance Criteria:**
+- [ ] ContactRequest validates name (required, max:255), email (required, email), subject (required, max:255), message (required)
+- [ ] Invalid submissions return 422 with field-specific errors
+- [ ] PHPStan passes
+- [ ] Tests pass
+
+### US-003: Create ContactController and routes
+**Description:** As a visitor, I want to submit the contact form and see confirmation.
+
+**Acceptance Criteria:**
+- [ ] GET /contact renders contact form view
+- [ ] POST /contact stores message and redirects with success flash
+- [ ] Routes registered in web.php
+- [ ] PHPStan passes
+- [ ] Tests pass
+
+### US-004: Send admin notification on contact submission
+**Description:** As an admin, I want to receive an email when someone submits the contact form.
+
+**Acceptance Criteria:**
+- [ ] ContactSubmitted notification created with toMail method
+- [ ] Notification dispatched after successful form submission
+- [ ] Email contains sender name, email, subject, and message
+- [ ] PHPStan passes
+- [ ] Tests pass
+
+### US-005: Create contact form Blade view
+**Description:** As a visitor, I want a clean contact form with validation feedback.
+
+**Acceptance Criteria:**
+- [ ] Contact form at /contact with name, email, subject, message fields
+- [ ] Displays validation errors per field
+- [ ] Shows success message after submission
+- [ ] PHPStan passes
+- [ ] Tests pass
+- [ ] Verify in browser using dev-browser skill
+
+## Functional Requirements
+
+- FR-1: Store contact submissions in `contact_messages` table
+- FR-2: Validate name, email, subject (required, max 255), message (required)
+- FR-3: Send email notification to admin (configured via `MAIL_ADMIN_ADDRESS` env)
+- FR-4: Show inline validation errors on form fields
+- FR-5: Display success flash message after submission
+
+## Non-Goals
+
+- No spam protection (CAPTCHA) in this iteration
+- No admin panel for viewing messages (use database directly)
+- No reply-to-visitor functionality
+- No file attachments
+
+## Technical Considerations
+
+- Use Laravel Notifications (not raw Mail) for admin email
+- Store admin email in config, not hardcoded
+- Use CSRF protection on the form
+- Feature tests should use `Notification::fake()`
+
+## Success Metrics
+
+- Visitors can submit the form and see confirmation in under 3 seconds
+- Admin receives email within 1 minute of submission
+- Zero unvalidated submissions reach the database
+```
+
+---
+
 ## Checklist
 
 Before saving the PRD:

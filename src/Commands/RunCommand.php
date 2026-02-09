@@ -7,6 +7,7 @@ use Collegeman\Ralph\GitHub\GitHubSync;
 use Collegeman\Ralph\Prd\PrdManager;
 use Collegeman\Ralph\Prd\UserStory;
 use Collegeman\Ralph\Progress\ProgressLog;
+use Collegeman\Ralph\Runner\Archiver;
 use Collegeman\Ralph\Runner\ClaudeInvoker;
 use Collegeman\Ralph\Runner\LoopOrchestrator;
 use Collegeman\Ralph\Runner\PromptBuilder;
@@ -37,6 +38,15 @@ class RunCommand extends Command
         if ($this->option('dry-run')) {
             return $this->dryRun($prdManager, $progressLog, $targetStory);
         }
+
+        $archiver = new Archiver($prdManager, $progressLog);
+        $archivePath = $archiver->checkAndArchive();
+
+        if ($archivePath) {
+            $this->components->warn("Branch changed — archived previous run to {$archivePath}");
+        }
+
+        $archiver->trackBranch();
 
         $this->components->info("Starting Ralph loop (max {$maxIterations} iterations)...");
         $this->newLine();

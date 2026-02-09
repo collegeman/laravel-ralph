@@ -191,7 +191,7 @@ class PromptBuilder
         return <<<'SCHEMA'
         {
             "project": "string — project name",
-            "branchName": "string — git branch for this feature set",
+            "branchName": "string — git branch, use ralph/ prefix (e.g. ralph/user-auth)",
             "description": "string — brief description of the feature set",
             "userStories": [
                 {

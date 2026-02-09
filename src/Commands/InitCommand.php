@@ -18,6 +18,7 @@ class InitCommand extends Command
         $this->scaffoldPrd();
         $this->scaffoldClaudeMd();
         $this->scaffoldSkills();
+        $this->scaffoldTasksDir();
         $this->scaffoldProgressLog();
         $this->publishConfig();
 
@@ -90,6 +91,19 @@ class InitCommand extends Command
             copy($source, $target);
             $this->components->task("Created skill: /{$skill}");
         }
+    }
+
+    private function scaffoldTasksDir(): void
+    {
+        $target = base_path('tasks');
+
+        if (is_dir($target)) {
+            return;
+        }
+
+        mkdir($target, 0755, true);
+        file_put_contents($target.'/.gitkeep', '');
+        $this->components->task('Created tasks/ directory');
     }
 
     private function scaffoldProgressLog(): void
