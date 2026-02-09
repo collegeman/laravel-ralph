@@ -17,6 +17,7 @@ class InitCommand extends Command
 
         $this->scaffoldPrd();
         $this->scaffoldClaudeMd();
+        $this->scaffoldSkills();
         $this->scaffoldProgressLog();
         $this->publishConfig();
 
@@ -64,6 +65,31 @@ class InitCommand extends Command
 
         file_put_contents($target, $stub);
         $this->components->task('Created CLAUDE.md');
+    }
+
+    private function scaffoldSkills(): void
+    {
+        $skills = ['prd', 'ralph'];
+
+        foreach ($skills as $skill) {
+            $target = base_path(".claude/skills/{$skill}/SKILL.md");
+            $source = __DIR__."/../../stubs/skills/{$skill}/SKILL.md";
+
+            if (file_exists($target) && ! $this->option('force')) {
+                $this->components->warn("Skill /{$skill} already exists — skipping");
+
+                continue;
+            }
+
+            $dir = dirname($target);
+
+            if (! is_dir($dir)) {
+                mkdir($dir, 0755, true);
+            }
+
+            copy($source, $target);
+            $this->components->task("Created skill: /{$skill}");
+        }
     }
 
     private function scaffoldProgressLog(): void

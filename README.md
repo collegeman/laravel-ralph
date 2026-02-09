@@ -46,6 +46,8 @@ Scaffolds Ralph files for your project:
 
 - `prd.json` — story definitions and status
 - `CLAUDE.md` — agent instructions for Claude during loop iterations
+- `.claude/skills/prd/SKILL.md` — `/prd` slash command for generating PRDs
+- `.claude/skills/ralph/SKILL.md` — `/ralph` slash command for converting PRDs to prd.json
 - `progress.txt` — append-only log of learnings across iterations
 
 ```bash
@@ -207,6 +209,37 @@ Add any command as a quality gate. It just needs to exit 0 on success:
 ```
 
 Each story should be small enough to complete in a single Claude session. Order by dependency — earlier stories should not depend on later ones.
+
+## Claude Code Skills
+
+`ralph:init` installs two [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) as slash commands in your project:
+
+### `/prd` — Generate a PRD
+
+Use this inside Claude Code to interactively create a PRD markdown document. Claude asks clarifying questions, then generates a structured PRD saved to `tasks/prd-[feature-name].md`.
+
+```
+> /prd user authentication with OAuth
+```
+
+### `/ralph` — Convert PRD to prd.json
+
+Takes a PRD markdown document and converts it into `prd.json` format, ready for the Ralph loop. Validates that stories are properly sized, ordered by dependency, and have verifiable acceptance criteria.
+
+```
+> /ralph tasks/prd-user-auth.md
+```
+
+### Workflow
+
+The typical workflow is:
+
+1. `/prd` — describe your feature, get a structured PRD
+2. Review and edit the PRD in `tasks/`
+3. `/ralph` — convert to `prd.json`
+4. `php artisan ralph:run` — start the autonomous loop
+
+Skills live in `.claude/skills/` and can be customized per-project. See the [Claude Code skills docs](https://docs.anthropic.com/en/docs/claude-code/skills) for details on the SKILL.md format.
 
 ## Tips
 
