@@ -38,6 +38,38 @@ php artisan ralph:prd
 php artisan ralph:run
 ```
 
+## Why Laravel Ralph?
+
+The [original Ralph](https://github.com/snarktank/ralph) is elegant in its simplicity — 80 lines of bash, no dependencies, works everywhere. So why use this package instead?
+
+### Smarter prompts, less wasted context
+
+Bash Ralph pipes a static CLAUDE.md and trusts Claude to read `prd.json` and `progress.txt` from disk. That works, but Claude spends tokens and turns just reading files before doing any real work. Laravel Ralph's PromptBuilder injects the PRD state, the target story, gate commands, and progress log directly into the prompt. Claude starts implementing immediately. Every iteration is more focused and wastes less context window on file discovery.
+
+### Laravel-aware defaults out of the box
+
+Bash Ralph requires you to configure quality checks yourself — you have to know what commands to run and edit the prompt template. This package ships with PHPStan + Pest/PHPUnit pre-configured, and the skills teach Claude Laravel conventions (Form Requests, Policies, Resources, migration ordering). Run `ralph:init` and the quality gates, story ordering guidance, and acceptance criteria conventions are already correct for your stack.
+
+### GitHub Issues as a first-class input
+
+`ralph:prd --from-issues` pulls issues labeled `ralph`, has Claude convert them to properly-sized stories, and `ralph:sync` pushes status back — closing issues when stories pass, commenting progress during iterations. Bash Ralph has no awareness of issue trackers. If your team files work as GitHub Issues, this closes the loop between project management and autonomous execution.
+
+### Dry runs save real money
+
+Before spending tokens on a loop that might run 10 iterations, `ralph:run --dry-run` shows you exactly what prompt Claude will receive. You can verify the story targeting, gate commands, and progress context look right. Bash Ralph has no equivalent — you run it and hope.
+
+### Status visibility without jq
+
+Bash Ralph's debugging is `cat prd.json | jq '.userStories[] | {id, title, passes}'`. `ralph:status` gives you a formatted table instantly. When you're monitoring a loop across multiple features, it matters.
+
+### Config over code editing
+
+Bash Ralph customization means editing shell scripts and prompt files. Laravel Ralph uses `config/ralph.php` — add a gate, change the model, adjust iteration limits, toggle GitHub sync. Standard Laravel config with environment overrides, publishable and version-controllable.
+
+### When to use bash Ralph instead
+
+If you're not using Laravel, if you want Amp CLI support, or if you want zero dependencies — use the [original](https://github.com/snarktank/ralph). It's simpler and works with any tech stack.
+
 ## Commands
 
 ### `ralph:init`
